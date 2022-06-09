@@ -3,13 +3,16 @@ package stepDefinitions;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import pages.AmazonPage;
+import pages.DataTablePage;
+import pages.HotelPage;
 import utilities.ConfigReader;
 import utilities.Driver;
 
-public class AmazonStepDefinitions {
+public class Amazon_StepDefinitions {
     AmazonPage amazonPage = new AmazonPage();
 
     @Given("kullanici amazon anasayfasinda")
@@ -66,7 +69,7 @@ public class AmazonStepDefinitions {
 
     @And("kullanici {string} icin arama yapar")
     public void kullaniciIcinAramaYapar(String istenenKelime) {
-        amazonPage.aramakUtusu.sendKeys(istenenKelime+Keys.ENTER);
+        amazonPage.aramakUtusu.sendKeys(istenenKelime + Keys.ENTER);
     }
 
     @And("sonuclarin {string} icerdigini test eder")
@@ -80,7 +83,23 @@ public class AmazonStepDefinitions {
         Driver.getDriver().get(ConfigReader.getProperty(istenenUrl));
     }
 
-    @And("url'in amazon icerdini test eder")
-    public void urlInAmazonIcerdiniTestEder() {
+
+    @And("url'in {string} icerdigini test eder")
+    public void urlInIcerdiginiTestEder(String istenenKelime) {
+        String actualUrl = Driver.getDriver().getCurrentUrl();
+        Assert.assertTrue(actualUrl.contains(istenenKelime));
     }
+
+    @Then("kullanici {int} sn bekler")
+    public void kullaniciSnBekler(int istenenSaniye) {
+
+        try {
+            Thread.sleep(istenenSaniye * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
